@@ -74,9 +74,6 @@ function App() {
         }
     };
 
-    React.useEffect(() => {
-        console.log("gg", gameId, gameState)
-    }, [gameId])
 
     return (
         <div className="container">
