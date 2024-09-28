@@ -109,7 +109,7 @@ function App() {
                     </div>)}
                     {gameState && gameState.status == "Won" && (<div>
                         <p className="won-message">You Won the Current Game</p>
-                        <button className="guess-button" onClick={guessLetterHandler}>
+                        <button className="guess-button" onClick={startNewGame}>
                             New Game
                         </button>
                     </div>)}
