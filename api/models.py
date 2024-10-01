@@ -9,7 +9,7 @@ class Game(models.Model,):
         WON = 'Won', 'Won'
 
     word = models.CharField(max_length=100)
-    guessed_letters = models.TextField(default='', blank=True)
+    guessed_letters = models.CharField(max_length=30, blank=True)
     incorrect_guesses = models.IntegerField(default=0)
     max_incorrect_guesses = models.IntegerField(default=0)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.IN_PROGRESS)

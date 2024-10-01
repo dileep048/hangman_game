@@ -23,7 +23,7 @@ A simple word guessing game built with React.js for the frontend and Django for 
 
 - **Frontend**: React.js
 - **Backend**: Django
-- **Database**: SQLite (or your choice of database)
+- **Database**: SQLite (For local testing) 
 
 ## Installation
 
