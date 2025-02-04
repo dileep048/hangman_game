@@ -1,0 +1,83 @@
+name: React & Django CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - master  # Trigger on push to the master branch
+  pull_request:
+    branches:
+      - master  # Trigger on pull request to master branch
+
+jobs:
+  # Frontend build job (ReactJS)
+  frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js (for React)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' 
+
+      # Install frontend dependencies
+      - name: Install dependencies for React frontend
+        run: |
+          cd frontend
+          npm install
+
+      # Build React frontend
+      - name: Build React frontend
+        run: |
+          cd frontend
+          npm run build
+
+
+  # Backend job (Django)
+  backend:
+    runs-on: ubuntu-latest
+    needs: frontend  # Ensure the frontend job runs before backend
+
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Python environment for Django
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # Install dependencies for Django (from requirements.txt)
+      - name: Install dependencies for Django
+        run: |
+          cd api
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+
+      # Run migrations for Django
+      - name: Run Django migrations
+        run: |
+          cd backend
+          source venv/bin/activate
+          python manage.py migrate
+
+      # Optionally, run Django tests (if needed)
+      - name: Run Django tests
+        run: |
+          cd backend
+          source venv/bin/activate
+          python manage.py test
+
+      - name: Start Django server
+        run: |
+          cd backend
+          source venv/bin/activate
+          python manage.py runserver 0.0.0.0:8000  # Start server (for testing purposes)
+        continue-on-error: true 
